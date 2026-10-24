@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toonhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFF4DC">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Toonhouse">
+</head>
+<body>
+
+<header>
+  <div class="brand"><span id="brandName">Toonhouse</span><span class="dot">.</span></div>
+  <div class="header-actions">
+    <input type="text" class="search-input" id="searchInput" placeholder="Search cartoons" aria-label="Search cartoons" autocomplete="off" />
+    <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">⚙</button>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Cartoon time, whenever you feel like it.</h1>
+  <div class="rule"></div>
+  <p id="heroSub">Your cartoon playlist, one tap away. Pick a show and watch whatever you feel like.</p>
+</div>
+
+<main id="main">
+  <div class="loading-msg" id="loadingMsg" style="display:none;">Loading your cartoons…</div>
+  <div id="contentRoot"></div>
+</main>
+
+<!-- Settings (API key) -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">Connect YouTube</h2>
+    <p class="sub">One-time step. Your key is stored only in this browser — nothing is sent anywhere except YouTube's own API.</p>
+    <div class="field">
+      <label for="apiKeyInput">YouTube Data API key</label>
+      <input type="text" id="apiKeyInput" placeholder="AIza…" autocomplete="off" />
+      <div class="hint">Free from <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener">Google Cloud Console</a> — enable “YouTube Data API v3”, then create an API key under Credentials. Your playlists are set in <code>config.js</code>.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="settingsCancel">Cancel</button>
+      <button class="btn" id="settingsSave">Save &amp; load</button>
+    </div>
+    <div class="settings-error" id="settingsError" role="alert"></div>
+  </div>
+</div>
+
+<!-- Player -->
+<div class="player-overlay" id="playerOverlay">
+  <div class="player-bar">
+    <div class="p-title" id="playerTitle"></div>
+    <button class="icon-btn" id="closePlayerBtn" aria-label="Close player">✕</button>
+  </div>
+  <div class="player-frame-wrap" id="playerFrameWrap">
+    <div id="ytPlayerContainer"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
